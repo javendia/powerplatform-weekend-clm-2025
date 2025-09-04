@@ -90,11 +90,6 @@ def create_workspace(workspace_name: str, capacity_name: str, upns: list = None)
             f"create /{workspace_name}.Workspace -P capacityName={capacity_name}"
         )
 
-        # Get workspace ID
-        workspace_id = run_fab_command(
-            f"get /{workspace_name}.Workspace -q id"
-        )
-
         print(f"*INFO*: ✅ Workspace '{workspace_name}' created with ID: {workspace_id}")
 
         # Add users to workspace
@@ -106,5 +101,10 @@ def create_workspace(workspace_name: str, capacity_name: str, upns: list = None)
                 upns=upns,
                 role="admin"
             )
+        
+        # Get workspace ID
+        workspace_id = run_fab_command(
+            f"get /{workspace_name}.Workspace -q id"
+        )
         
         return workspace_id
