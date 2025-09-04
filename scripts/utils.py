@@ -102,9 +102,9 @@ def create_workspace(workspace_name: str, capacity_name: str, upns: list = None)
                 role="admin"
             )
         
-        # Get workspace ID
-        workspace_id = run_fab_command(
-            f"get /{workspace_name}.Workspace -q id"
-        )
-        
-        return workspace_id
+    # Get workspace ID
+    workspace_id = run_fab_command(
+        f"get /{workspace_name}.Workspace -q id"
+    )
+    
+    return workspace_id
