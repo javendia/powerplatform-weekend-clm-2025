@@ -1,0 +1,103 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "ACT_FOR_LoopTables",
+        "type": "ForEach",
+        "dependsOn": [],
+        "typeProperties": {
+          "items": {
+            "value": "@variables('tables')",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "name": "ACT_COPY",
+              "type": "Copy",
+              "dependsOn": [],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "source": {
+                  "type": "SqlServerSource",
+                  "queryTimeout": "02:00:00",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "annotations": [],
+                    "type": "SqlServerTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "schema": "Data",
+                      "table": {
+                        "value": "@item()",
+                        "type": "Expression"
+                      },
+                      "database": "Contoso10M"
+                    },
+                    "externalReferences": {
+                      "connection": "3c52b453-b2b7-4296-866e-8bf65ae733ff"
+                    }
+                  }
+                },
+                "sink": {
+                  "type": "DataWarehouseSink",
+                  "allowCopyCommand": true,
+                  "copyCommandSettings": {},
+                  "datasetSettings": {
+                    "annotations": [],
+                    "linkedService": {
+                      "name": "DE_LH_DATA",
+                      "properties": {
+                        "annotations": [],
+                        "type": "DataWarehouse",
+                        "typeProperties": {
+                          "endpoint": "ksjmpaectuve5bv4zk2milbezu-7j7vyue5s43evmdlqqpyqzalga.datawarehouse.fabric.microsoft.com",
+                          "artifactId": "b1c25ed9-cc48-4dca-8354-5cb780fb1f81",
+                          "workspaceId": "505c7ffa-979d-4a36-b06b-841f88640b30"
+                        }
+                      }
+                    },
+                    "type": "DataWarehouseTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "schema": "dbo",
+                      "table": {
+                        "value": "@item()",
+                        "type": "Expression"
+                      }
+                    }
+                  }
+                },
+                "enableStaging": true,
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "variables": {
+      "tables": {
+        "type": "Array",
+        "defaultValue": [
+          "Customer",
+          "Date",
+          "Product",
+          "Store"
+        ]
+      }
+    }
+  }
+}

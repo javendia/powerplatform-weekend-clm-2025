@@ -1,0 +1,27 @@
+CREATE TABLE [dbo].[Customer] (
+
+	[CustomerKey] int NOT NULL, 
+	[GeoAreaKey] int NOT NULL, 
+	[StartDT] date NULL, 
+	[EndDT] date NULL, 
+	[Continent] varchar(50) NULL, 
+	[Gender] varchar(10) NULL, 
+	[Title] varchar(50) NULL, 
+	[GivenName] varchar(150) NULL, 
+	[MiddleInitial] varchar(150) NULL, 
+	[Surname] varchar(150) NULL, 
+	[StreetAddress] varchar(150) NULL, 
+	[City] varchar(50) NULL, 
+	[State] varchar(50) NULL, 
+	[StateFull] varchar(50) NULL, 
+	[ZipCode] varchar(50) NULL, 
+	[Country] varchar(50) NULL, 
+	[CountryFull] varchar(50) NULL, 
+	[Birthday] date NOT NULL, 
+	[Age] int NOT NULL, 
+	[Occupation] varchar(100) NULL, 
+	[Company] varchar(50) NULL, 
+	[Vehicle] varchar(50) NULL, 
+	[Latitude] float NOT NULL, 
+	[Longitude] float NOT NULL
+);
