@@ -19,6 +19,7 @@ def run_fab_command(command: str):
     return result.stdout.strip()
 
 def get_id(workspace_name: str, artifact_name: str, type: str) -> str:
+    
     """
     Retrieves the artifact ID.
     
@@ -31,8 +32,7 @@ def get_id(workspace_name: str, artifact_name: str, type: str) -> str:
     """
     
     # Get artifact ID
-    id = run_fab_command(f"get /{workspace_name}.Workspace/{artifact_name} -q id")
-    return id
+    return run_fab_command(f"get /{workspace_name}.Workspace/{artifact_name} -q id")
 
 def add_users_to_artifact(
         artifact_name: str,
@@ -41,6 +41,7 @@ def add_users_to_artifact(
         role: str,
         command_prefix: str = ""
 ):
+    
     """
     Adds users to an artifact with a specified role.
     
@@ -67,6 +68,7 @@ def add_users_to_artifact(
 
 
 def create_workspace(workspace_name: str, capacity_name: str, upns: list = None) -> str:
+    
     """
     Creates a new Fabric workspace.
     
@@ -101,10 +103,13 @@ def create_workspace(workspace_name: str, capacity_name: str, upns: list = None)
                 upns=upns,
                 role="admin"
             )
+    else:
+        print(f"*INFO*: ℹ️ Workspace '{workspace_name}' already exists.")
         
     # Get workspace ID
     workspace_id = run_fab_command(
         f"get /{workspace_name}.Workspace -q id"
     )
+    print(f"*INFO*: ✅ Workspace '{workspace_name}' created with ID: {workspace_id}")
     
     return workspace_id
