@@ -1,0 +1,4 @@
+find_replace:
+    - find_value: "3c52b453-b2b7-4296-866e-8bf65ae733ff" # SQL Server connection GUID to be replaced
+      replace_value:
+        PRO: "b4211ea7-abcc-4b3a-b755-fe3923b1263d" # PRO SQL Server connection GUID

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TargetDatabaseName>DE_SQL_DATABASE</TargetDatabaseName>
+    <AllowIncompatiblePlatform>True</AllowIncompatiblePlatform>
+    <DropPermissionsNotInSource>False</DropPermissionsNotInSource>
+    <DropObjectsNotInSource>False</DropObjectsNotInSource>
+    <DropRoleMembersNotInSource>False</DropRoleMembersNotInSource>
+    <IgnoreKeywordCasing>False</IgnoreKeywordCasing>
+    <IgnoreSemicolonBetweenStatements>False</IgnoreSemicolonBetweenStatements>
+    <AllowDropBlockingAssemblies>True</AllowDropBlockingAssemblies>
+    <ProfileVersionNumber>1</ProfileVersionNumber>
+    <DoNotAlterReplicatedObjects>False</DoNotAlterReplicatedObjects> <!-- Set to true to prevent the publish process from altering replicated objects. -->
+  </PropertyGroup>
+</Project>
