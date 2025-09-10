@@ -1,0 +1,95 @@
+name: fabric-deployment
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+# Setting environment variables
+env:
+  FAB_ADMIN_UPNS: ${{ secrets.FAB_ADMIN_UPNS }}
+  FAB_CAPACITY: ${{ secrets.FAB_CAPACITY }}
+  WORKSPACE_NAME: ${{ vars.WORKSPACE_NAME }}
+  SQL_DATABASE_NAME: ${{ vars.SQL_DATABASE_NAME }}
+  ORCHESTRATOR_NAME: ${{ vars.ORCHESTRATOR_NAME }}
+  ENVIRONMENT: PRO
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./src/requirements.txt
+      - name: Get federated token
+        run: |
+          fab config set fab_encryption_fallback_enabled true
+          echo "FED_TOKEN=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://AzureADTokenExchange" | jq -r '.value')" >> $GITHUB_ENV
+      - name: Log in to Fabric CLI
+        run: |
+          fab auth login -t ${{ secrets.TENANT_ID }} -u ${{ secrets.CLIENT_ID }} --federated-token ${{ env.FED_TOKEN }}
+      - name: Run installation script
+        run: |
+          python scripts/install.py
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+      # SP requires:
+      #  - Contributor permissions over Fabric capacity
+      #  - User permissions over the connections to data sources
+      - name: Deploy items
+        run: |
+          python ./scripts/publish.py --WorkspaceId ${{ env.PRO_WORKSPACE_ID }} --Environment ${{ env.ENVIRONMENT }} --RepositoryDirectory ./src
+      
+      #  Change DEV variables to PRO variables
+      - name: Rebind variables
+        run: |
+          python scripts/rebind.py
+      
+      - name: Build database project
+        run: |
+          dotnet tool update -g microsoft.sqlpackage
+          dotnet build
+        working-directory: sql/${{ env.SQL_DATABASE_NAME }}
+
+      - name: Get metadata database connection properties
+        run: |
+          # Note: You should therefore access the env variable in another step instead of in the same one
+          echo "SQL_CONNECTION_STRING=$(fab get /${{ env.WORKSPACE_NAME }}_${{ env.ENVIRONMENT }}.Workspace/${{ env.SQL_DATABASE_NAME }}.SQLDatabase -q properties.connectionString)" >> $GITHUB_ENV
+      
+      - name: Publish dacpac
+        uses: Azure/sql-action@v2.3
+        with:
+          # The connection string, including authentication information, for the Warehouse database.
+          connection-string: '${{ env.SQL_CONNECTION_STRING }};Authentication=Active Directory Default'
+          # Path to DACPAC file to deploy
+          path: ./sql/${{ env.SQL_DATABASE_NAME }}/bin/Debug/${{ env.SQL_DATABASE_NAME }}.dacpac
+          action: publish
+          skip-firewall-check: true
+
+      # Start job to load data
+      - name: Run orchestrator
+        run: |
+          fab job start ${{ env.WORKSPACE_NAME }}_${{ env.ENVIRONMENT }}.Workspace/${{ env.ORCHESTRATOR_NAME }}.DataPipeline
