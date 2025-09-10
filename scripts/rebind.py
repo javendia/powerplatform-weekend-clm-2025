@@ -53,8 +53,8 @@ def get_workspace_items(endpoint: str, headers: dict) -> pd.DataFrame:
 def main():
 
     base_url = "https://api.fabric.microsoft.com/v1"
-    client_id = os.getenv("AZURE_CLIENT_ID").strip()
-    tenant_id = os.getenv("AZURE_TENANT_ID").strip()
+    client_id = os.getenv("CLIENT_ID").strip()
+    tenant_id = os.getenv("TENANT_ID").strip()
     fed_token = os.getenv("FED_TOKEN").strip()
     workspace_name = os.getenv("WORKSPACE_NAME").strip()
     dev_workspace_id = os.getenv("DEV_WORKSPACE_ID").strip()
@@ -62,9 +62,9 @@ def main():
 
     # Validate required variables
     if not client_id:
-        raise ValueError("*ERROR*: ❌ AZURE_CLIENT_ID environment variable is not set.")
+        raise ValueError("*ERROR*: ❌ CLIENT_ID environment variable is not set.")
     if not tenant_id:
-        raise ValueError("*ERROR*: ❌ AZURE_TENANT_ID environment variable is not set.")
+        raise ValueError("*ERROR*: ❌ TENANT_ID environment variable is not set.")
     if not fed_token:
         raise ValueError("*ERROR*: ❌ FED_TOKEN environment variable is not set.")
     if not workspace_name:
