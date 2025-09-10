@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/variables/1.0.0/schema.json",
+  "variables": [
+    {
+      "name": "PP_WEEKEND_CLM",
+      "note": "Workpace",
+      "type": "Guid",
+      "value": "505c7ffa-979d-4a36-b06b-841f88640b30"
+    },
+    {
+      "name": "DE_PIP_COPYDATA",
+      "note": "",
+      "type": "Guid",
+      "value": "eacec935-4407-425f-a970-66dfb3cb341f"
+    },
+    {
+      "name": "DE_SQL_CONNECTION_ID",
+      "note": "",
+      "type": "Guid",
+      "value": "a2ce90f9-9dbd-47fa-8fb0-0e075e432578"
+    },
+    {
+      "name": "DE_SQL_DATABASE",
+      "note": "",
+      "type": "Guid",
+      "value": "47b7533d-fdb1-4e40-bbe5-60d7fc7ac3de"
+    }
+  ]
+}

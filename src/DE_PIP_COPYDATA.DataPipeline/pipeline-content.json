@@ -1,0 +1,127 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "ACT_FOR_LoopTables",
+        "type": "ForEach",
+        "dependsOn": [],
+        "typeProperties": {
+          "items": {
+            "value": "@variables('tables')",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "name": "ACT_COPY",
+              "type": "Copy",
+              "dependsOn": [],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "source": {
+                  "type": "SqlServerSource",
+                  "queryTimeout": "02:00:00",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "annotations": [],
+                    "type": "SqlServerTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "schema": "Data",
+                      "table": {
+                        "value": "@item()",
+                        "type": "Expression"
+                      },
+                      "database": "Contoso10M"
+                    },
+                    "externalReferences": {
+                      "connection": "3c52b453-b2b7-4296-866e-8bf65ae733ff"
+                    }
+                  }
+                },
+                "sink": {
+                  "type": "FabricSqlDatabaseSink",
+                  "writeBehavior": "insert",
+                  "sqlWriterUseTableLock": false,
+                  "datasetSettings": {
+                    "annotations": [],
+                    "connectionSettings": {
+                      "name": "da2fe1c7_2709_4d35_a5df_ba38b0afa6b9",
+                      "properties": {
+                        "annotations": [],
+                        "type": "FabricSqlDatabase",
+                        "typeProperties": {
+                          "workspaceId": "@pipeline().libraryVariables.DE_VL_VARIABLES_PP_WEEKEND_CLM",
+                          "artifactId": "@pipeline().libraryVariables.DE_VL_VARIABLES_DE_SQL_DATABASE"
+                        },
+                        "externalReferences": {
+                          "connection": "@pipeline().libraryVariables.DE_VL_VARIABLES_DE_SQL_CONNECTION_ID"
+                        }
+                      }
+                    },
+                    "type": "FabricSqlDatabaseTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "schema": "dbo",
+                      "table": {
+                        "value": "@item()",
+                        "type": "Expression"
+                      }
+                    }
+                  }
+                },
+                "enableStaging": false,
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "variables": {
+      "tables": {
+        "type": "Array",
+        "defaultValue": [
+          "Customer",
+          "Date",
+          "Product",
+          "Store"
+        ]
+      }
+    },
+    "libraryVariables": {
+      "DE_VL_VARIABLES_PP_WEEKEND_CLM": {
+        "type": "String",
+        "variableName": "PP_WEEKEND_CLM",
+        "libraryName": "DE_VL_VARIABLES"
+      },
+      "DE_VL_VARIABLES_DE_PIP_COPYDATA": {
+        "type": "String",
+        "variableName": "DE_PIP_COPYDATA",
+        "libraryName": "DE_VL_VARIABLES"
+      },
+      "DE_VL_VARIABLES_DE_SQL_CONNECTION_ID": {
+        "type": "String",
+        "variableName": "DE_SQL_CONNECTION_ID",
+        "libraryName": "DE_VL_VARIABLES"
+      },
+      "DE_VL_VARIABLES_DE_SQL_DATABASE": {
+        "type": "String",
+        "variableName": "DE_SQL_DATABASE",
+        "libraryName": "DE_VL_VARIABLES"
+      }
+    }
+  }
+}
