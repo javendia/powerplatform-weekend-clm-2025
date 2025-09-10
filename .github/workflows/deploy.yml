@@ -15,6 +15,8 @@ permissions:
 
 # Setting environment variables
 env:
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  TENANT_ID: ${{ secrets.TENANT_ID }}
   FAB_ADMIN_UPNS: ${{ secrets.FAB_ADMIN_UPNS }}
   FAB_CAPACITY: ${{ secrets.FAB_CAPACITY }}
   WORKSPACE_NAME: ${{ vars.WORKSPACE_NAME }}
