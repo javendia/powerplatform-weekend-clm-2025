@@ -10,13 +10,18 @@ Evento: 1º Power Platform Weekend CLM Caudete (Albacete)
 
 La propuesta de flujo de despliegue de este repositorio, empleada en la demo de la presentación, se basa en el siguiente escenario:
 
-![Escenario](resources/drawio/schema.drawio.svg)
+<p align="center">
+    <img src="./resources/drawio/schema.drawio.svg" alt="Escenario">
+</p>
 
 - En Microsoft Fabric, se dispone de al menos dos áreas de trabajo:
     - Un área de trabajo de **desarrollo** donde se combinen los cambios llevados a cabo por los distintos desarrolladores de forma independiente y que se encuentra conectada con la carpeta [src](src) de la rama **develop** del repositorio.
-    - Un área de trabajo para **producción** donde las modificaciones, una vez combinados tras la apertura de una solicitud de incorporación de cambios, son publicadas siguiendo el siguiente flujo de acciones:
-    ![Flujo CI/CD](resources/drawio/cicd.drawio.svg)
+    - Un área de trabajo para **producción** donde las modificaciones, una vez combinados tras la apertura de una solicitud de incorporación de cambios, son publicadas siguiendo el siguiente flujo de acciones
 
+      <p align="center">
+          <img src="./resources/drawio/cicd.drawio.svg" alt="Flujo de acciones">
+      </p>
+      
 ---
 
 ## 📦 Estructura del repositorio
