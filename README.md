@@ -1,8 +1,11 @@
 
 # 1º Power Platform Weekend CLM Caudete (Albacete) 🚀
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+
 Repositorio de la ponencia **"De GitHub a Fabric: ¡despliega sin eslomarte!"**  
-Evento: 1º Power Platform Weekend CLM Caudete (Albacete)
+**Evento:** 1º Power Platform Weekend CLM Caudete (Albacete)
 
 ---
 
@@ -24,7 +27,7 @@ La propuesta de flujo de despliegue de este repositorio, empleada en la demo de 
       
 ---
 
-## 📦 Estructura del repositorio
+## 📦 Contenidos
 
 - **/scripts**: Scripts que sirven de apoyo en el proceso de despliegue.
 - **/src**: Código fuente de los artefactos de Microsoft Fabric contenidos en el área de trabajo a promocionar.
@@ -34,7 +37,7 @@ La propuesta de flujo de despliegue de este repositorio, empleada en la demo de 
 
 ---
 
-## 📋 Requisitos
+## 🗹 Prerequisitos
 
 El flujo de despliegue de este repositorio emplea:
 
@@ -46,11 +49,11 @@ El flujo de despliegue de este repositorio emplea:
 
 ---
 
-## 📃 Instrucciones
+## 📃 Instrucciones de uso
 
-- Revisar los requisitos del punto anterior.
-- Bifurcar este repositorio.
-- Configurar los siguientes secretos y variables en el repositorio:
+1. Revisar los prerequisitos del punto anterior.
+2. Bifurcar este repositorio.
+3. Configurar los siguientes secretos y variables en el repositorio:
     | Nombre            | Tipo   | Valor                |
     |-------------------|--------|----------------------|
     | `CLIENT_ID`       | Secreto | Identificador de la entidad de servicio   |
@@ -62,4 +65,4 @@ El flujo de despliegue de este repositorio emplea:
     | `SQL_DATABASE_NAME` | Variable | Nombre de la base de datos SQL en Fabric |
     | `ORCHESTRATOR_NAME` | Variable | Nombre de la canalización que gestiona la carga de datos de la solución |
 
-- Ejecutar la acción existente en el repositorio, ya sea manualmente o desencadenando una nueva incorporación de cambios.
+4. Ejecutar la acción existente en el repositorio, ya sea manualmente o desencadenando una nueva incorporación de cambios.
